@@ -5,6 +5,7 @@
   "main": "lib/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "gulp build",
     "start": "node lib/server.js"
   },
   "author": "{{ COMP INSERT NAME HERE }} <jorge@globaltrainingcenter.com>",

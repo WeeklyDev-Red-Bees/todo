@@ -16,7 +16,8 @@ function getProtected() {
     // router.route('/:id')
     router.route('/')
         .get((req, res) => {
-            User.findById(req.dec.id).catch((err) => {
+            console.log(req.dec);
+            User.findById(req.dec._id).catch((err) => {
                 res.json({ success: false, message: err });
             }).then((user) => {
                 res.json({ success: true, data: user });

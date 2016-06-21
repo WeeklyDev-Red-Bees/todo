@@ -25,9 +25,11 @@ export function getRoutes() {
             }
             
             if (bcrypt.compareSync(req.body.pass, user.pass)) {
+                console.log('ugh');
                 let token = jwt.sign(user.toObject(), config.get('secret'), {
                     expiresIn: '1 day'
                 });
+                console.log(token);
                 res.json({ success: true, token });
             } else {
                 res.json({ success: false, err: 'Invalid password.' });

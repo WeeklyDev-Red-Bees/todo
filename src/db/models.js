@@ -25,9 +25,13 @@ var userSchema = new mongoose.Schema({
     // tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Task' }]
     tasks: [taskSchema]
 }, {
-    toObject: (doc, ret, options) => {
-        delete ret.password;
-    }
+    // toObject: {
+    //     transform: (doc, ret, options) => {
+    //         console.log(ret);
+    //         delete ret.pass;
+    //         console.log(ret);
+    //     }
+    // }
 });
 
 // userSchema.pre('save', function(next) {

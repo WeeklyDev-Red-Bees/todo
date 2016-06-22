@@ -37,6 +37,24 @@ export function getRoutes() {
         });
     });
     
+    router.post('/auth/refresh', (req, res) => {
+        if (!req.body.token) return res.json({ success: false, err: 'No token given.' });
+        jwt.verify(req.body.token, config.get('secret'), (err, dec) => {
+            if (err) {
+                console.error(err);
+                return res.json({ success: false, err: 'Failed to authenticate token.' });
+            }
+            User.findById(dec._id).catch((err) => {
+                res.json({ success: false, err });
+            }).then((user) => {
+                let token = jwt.sign(user.toObject(), config.get('secret'), {
+                    expiresIn: '1 day'
+                });
+                res.json({ success: true, token });
+            });
+        });
+    });
+    
     router.use((req, res, next) => {
         let token = req.body.token || req.query.token || req.headers['x-access-token'];
         

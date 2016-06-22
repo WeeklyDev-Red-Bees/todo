@@ -25,6 +25,10 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Password required.']
     },
+    // verified: {
+    //     type: Boolean,
+    //     default: true
+    // },
     // tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Task' }]
     tasks: [taskSchema]
 }, {

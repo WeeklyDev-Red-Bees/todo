@@ -17,7 +17,7 @@ export function getRoutes() {
         User.findOne({
             email: req.body.email
         }).catch((err) => {
-            console.error(err);
+            // console.error(err);
             res.json({ success: false, err });
         }).then((user) => {
             if (!user) {
@@ -25,11 +25,11 @@ export function getRoutes() {
             }
             
             if (bcrypt.compareSync(req.body.pass, user.pass)) {
-                console.log('ugh');
+                // console.log('ugh');
                 let token = jwt.sign(user.toObject(), config.get('secret'), {
                     expiresIn: '1 day'
                 });
-                console.log(token);
+                // console.log(token);
                 res.json({ success: true, token });
             } else {
                 res.json({ success: false, err: 'Invalid password.' });

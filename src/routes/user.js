@@ -61,7 +61,6 @@ function getProtected() {
                 res.json({ success: true, data: newUser });
             });
         });
-        
         // res.json({ success: false, err: "PUT /tasks/:taskID has not been completed."});
     }).delete((req, res) => {
         User.findById(req.dec._id).catch((err) => {
@@ -76,6 +75,27 @@ function getProtected() {
         });
         
         // res.json({ success: false, err: "DELETE /tasks/:taskID has not been completed."});
+    });
+    
+    router.get('/tasks/:taskID/complete', (req, res) => {
+        console.log('uuugh');
+        User.findById(req.dec._id).catch((err) => {
+            res.json({ success: false, err });
+        }).then((user) => {
+            let task = user.tasks.id(req.params.taskID);
+            User.findOneAndUpdate({
+                "_id": user._id,
+                "tasks._id": req.params.taskID
+            }, { "$set": { "tasks.$.completed": !task.completed }}).catch((err) => {
+                res.json({ success: false, err });
+            }).then(() => {
+                User.findById(user._id).catch((err) => {
+                    res.json({ success: true, err });
+                }).then((newUser) => {
+                    res.json({ success: true, data: newUser });
+                });
+            });
+        });
     });
     
     return router;

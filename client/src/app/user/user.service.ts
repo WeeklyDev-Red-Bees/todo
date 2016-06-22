@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 export interface Task {
   text: string;
   type: string;
+  completed: boolean;
 }
 
 export interface User {

@@ -16,7 +16,10 @@ var taskSchema = new mongoose.Schema({
 var userSchema = new mongoose.Schema({
     email: {
         type: String,
-        match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/
+        match: /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/,
+        index: {
+            unique: true
+        }
     },
     pass: {
         type: String,

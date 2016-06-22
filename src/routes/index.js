@@ -14,6 +14,9 @@ export function getRoutes() {
     if ('unprotected' in userRoutes) router.use('/user', userRoutes.unprotected);
     
     router.post('/auth', (req, res) => {
+        if (!('email' in req.body && 'pass' in req.body)) {
+            return res.json({ success: false, err: "Insufficient parameters." });
+        }
         User.findOne({
             email: req.body.email
         }).catch((err) => {
@@ -26,11 +29,12 @@ export function getRoutes() {
             
             if (bcrypt.compareSync(req.body.pass, user.pass)) {
                 // console.log('ugh');
-                let token = jwt.sign(user.toObject(), config.get('secret'), {
+                let userObj = user.toObject();
+                let token = jwt.sign(userObj, config.get('secret'), {
                     expiresIn: '1 day'
                 });
                 // console.log(token);
-                res.json({ success: true, token });
+                res.json({ success: true, token, data: userObj });
             } else {
                 res.json({ success: false, err: 'Invalid password.' });
             }
@@ -47,10 +51,11 @@ export function getRoutes() {
             User.findById(dec._id).catch((err) => {
                 res.json({ success: false, err });
             }).then((user) => {
-                let token = jwt.sign(user.toObject(), config.get('secret'), {
+                let userObj = user.toObject();
+                let token = jwt.sign(userObj, config.get('secret'), {
                     expiresIn: '1 day'
                 });
-                res.json({ success: true, token });
+                res.json({ success: true, token, data: userObj });
             });
         });
     });

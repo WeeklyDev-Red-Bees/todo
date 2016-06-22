@@ -8,7 +8,7 @@ import { UserService, User } from './user.service';
 })
 export class UserComponent implements OnInit {
   userService: UserService;
-  user: User;
+  user: User = null;
   
   constructor(userService: UserService) {
     console.log('userComponent constructor');
@@ -17,5 +17,9 @@ export class UserComponent implements OnInit {
   
   ngOnInit() {
     console.log('userComponent ngOnInit');
+  }
+  
+  login() {
+    // TODO: Login using this.userService#login
   }
 }

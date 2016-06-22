@@ -24,6 +24,9 @@ function getProtected() {
     });
     
     router.post('/tasks', (req, res) => {
+        if (!('text' in req.body)) {
+            return res.json({ success: false, err: "Insufficient parameters." });
+        }
         User.findById(req.dec._id).catch((err) => {
             res.json({ success: false, err });
         }).then((user) => {

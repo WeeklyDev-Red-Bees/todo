@@ -1,4 +1,5 @@
 import http from 'http';
+import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import config from 'config';
@@ -14,6 +15,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 initializeDatabase();
+
+app.use(express.static(`${__dirname}/../client/dist`));
+
+// app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'));
+// });
 
 app.use('/api', getRoutes());
 
